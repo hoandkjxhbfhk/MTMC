@@ -1,0 +1,10 @@
+*.pth
+*.pt
+*.log
+runs/
+output_videos/
+videos/
+frames/
+od_total/
+reid_dataset/
+__pycache__/
