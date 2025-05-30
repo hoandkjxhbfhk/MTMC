@@ -1,0 +1,21 @@
+MotChallenge2DBox
+VTX_MTMC
+Traceback (most recent call last):
+  File "/mnt/apple/k66/hoan/MTMC_Evaluate_2025/src/trackeval/eval.py", line 113, in evaluate
+    res[curr_seq] = eval_sequence(curr_seq, dataset, tracker, class_list, metrics_list,
+  File "/mnt/apple/k66/hoan/MTMC_Evaluate_2025/src/trackeval/_timing.py", line 17, in wrap
+    result = f(*args, **kw)
+  File "/mnt/apple/k66/hoan/MTMC_Evaluate_2025/src/trackeval/eval.py", line 218, in eval_sequence
+    raw_data = dataset.get_raw_seq_data(tracker, seq)
+  File "/mnt/apple/k66/hoan/MTMC_Evaluate_2025/src/trackeval/_timing.py", line 17, in wrap
+    result = f(*args, **kw)
+  File "/mnt/apple/k66/hoan/MTMC_Evaluate_2025/src/trackeval/datasets/_base_dataset.py", line 95, in get_raw_seq_data
+    raw_tracker_data = self._load_raw_file(tracker, seq, is_gt=False)
+  File "/mnt/apple/k66/hoan/MTMC_Evaluate_2025/src/trackeval/datasets/mot_challenge_2d_box.py", line 229, in _load_raw_file
+    raise TrackEvalException(
+trackeval.utils.TrackEvalException: Tracking data contains the following invalid timesteps in seq S005: 0, 
+
+
+
+
+
