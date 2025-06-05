@@ -147,7 +147,7 @@ class MCTracker:
         # self.match_thresh = 0.99
         self.max_len = 1
 
-        self.clustering = AgglomerativeClustering(n_clusters=2, affinity='cosine', linkage='average')
+        self.clustering = AgglomerativeClustering(n_clusters=2, metric='cosine', linkage='average')
         # self.clustering = AgglomerativeClustering(n_clusters=2, metric='cosine', linkage='ward')
 
         if int(scene.split('_')[1]) in range(61, 71):

@@ -25,7 +25,7 @@ calibration_position = {
     "scene_060": sorted([str(p) for p in Path("/workspace/videos/val/scene_060").glob("**/calibration.json")]),
 
     # Test
-    "scene_061": sorted([str(p) for p in Path("/workspace/videos/test/scene_061").glob("**/calibration.json")]),
+    "scene_061": sorted([str(p) for p in Path("data/videos/test/scene_061").glob("**/calibration.json")]),
     "scene_062": sorted([str(p) for p in Path("/workspace/videos/test/scene_062").glob("**/calibration.json")]),
     "scene_063": sorted([str(p) for p in Path("/workspace/videos/test/scene_063").glob("**/calibration.json")]),
     "scene_064": sorted([str(p) for p in Path("/workspace/videos/test/scene_064").glob("**/calibration.json")]),
@@ -35,7 +35,7 @@ calibration_position = {
     "scene_068": sorted([str(p) for p in Path("/workspace/videos/test/scene_068").glob("**/calibration.json")]),
     "scene_069": sorted([str(p) for p in Path("/workspace/videos/test/scene_069").glob("**/calibration.json")]),
     "scene_070": sorted([str(p) for p in Path("/workspace/videos/test/scene_070").glob("**/calibration.json")]),
-    "scene_071": sorted([str(p) for p in Path("/workspace/videos/test/scene_071").glob("**/calibration.json")]),
+    "scene_071": sorted([str(p) for p in Path("data/videos/test/scene_071").glob("**/calibration.json")]),
     "scene_072": sorted([str(p) for p in Path("/workspace/videos/test/scene_072").glob("**/calibration.json")]),
     "scene_073": sorted([str(p) for p in Path("/workspace/videos/test/scene_073").glob("**/calibration.json")]),
     "scene_074": sorted([str(p) for p in Path("/workspace/videos/test/scene_074").glob("**/calibration.json")]),
@@ -45,7 +45,7 @@ calibration_position = {
     "scene_078": sorted([str(p) for p in Path("/workspace/videos/test/scene_078").glob("**/calibration.json")]),
     "scene_079": sorted([str(p) for p in Path("/workspace/videos/test/scene_079").glob("**/calibration.json")]),
     "scene_080": sorted([str(p) for p in Path("/workspace/videos/test/scene_080").glob("**/calibration.json")]),
-    "scene_081": sorted([str(p) for p in Path("/workspace/videos/test/scene_081").glob("**/calibration.json")]),
+    "scene_081": sorted([str(p) for p in Path("data/videos/test/scene_081").glob("**/calibration.json")]),
     "scene_082": sorted([str(p) for p in Path("/workspace/videos/test/scene_082").glob("**/calibration.json")]),
     "scene_083": sorted([str(p) for p in Path("/workspace/videos/test/scene_083").glob("**/calibration.json")]),
     "scene_084": sorted([str(p) for p in Path("/workspace/videos/test/scene_084").glob("**/calibration.json")]),

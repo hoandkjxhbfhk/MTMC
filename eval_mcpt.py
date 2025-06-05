@@ -31,7 +31,7 @@ def run(args, conf_thres, iou_thres, sources, result_paths, perspective, cam_ids
         detection = YOLO('yolov8x.pt')
 
     # pose estimation initialize
-    config_file = '/mmpose/configs/body_2d_keypoint/rtmpose/crowdpose/rtmpose-m_8xb64-210e_crowdpose-256x192.py'
+    config_file = 'mmpose/configs/body_2d_keypoint/rtmpose/crowdpose/rtmpose-m_8xb64-210e_crowdpose-256x192.py'
     checkpoint_file = 'https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-crowdpose_pt-aic-coco_210e-256x192-e6192cac_20230224.pth'
     pose = init_model(config_file, checkpoint_file, device='cuda:0')
 
@@ -130,6 +130,13 @@ if __name__ == '__main__':
         }
 
     scene = make_parser().scene
+    # scenes = [
+    #             'scene_061', 
+    #             'scene_071', 
+    #             'scene_081'
+    #             ]
+    # for scene in scenes:
+    #         run(args=args, conf_thres=0.1, iou_thres=0.45, sources=sources[scene], result_paths=result_paths[scene], perspective=scene, cam_ids=cam_ids[scene], scene=scene)
 
     if scene is not None:
         run(args=args, conf_thres=0.1, iou_thres=0.45, sources=sources[scene], result_paths=result_paths[scene], perspective=scene, cam_ids=cam_ids[scene], scene=scene)
