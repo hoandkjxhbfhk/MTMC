@@ -1,8 +1,8 @@
 # export dataset_path="/home/anhttt16/lvm_workspace/MTMC/MTMC_Evaluate_2025/data/F11"
 # export predict_path="/home/anhttt16/lvm_workspace/MTMC/MTMC_Evaluate_2025/infer/MODEL_103_restructure"
 
-export dataset_path="/mnt/apple/k66/hoan/aicity23/short_val_eval"
-export predict_path="/mnt/apple/k66/hoan/aicity23/short_val_eval"
+export dataset_path="/home/hoantv/AIC2024/converted"
+export predict_path="/home/hoantv/AIC2024/converted"
 
 # Please specify the metrics to print before proceeding.
 # You may only choose from these:
