@@ -1,4 +1,4 @@
-name: /home/hoantv/env/MTMC
+name:  MTMC
 channels:
   - defaults
 dependencies:
@@ -128,4 +128,4 @@ dependencies:
       - yacs==0.1.8
       - yapf==0.43.0
       - zipp==3.22.0
-prefix: /home/hoantv/env/MTMC
+prefix: /data/hpc/cam/env/MTMC

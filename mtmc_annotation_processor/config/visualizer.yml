@@ -1,0 +1,48 @@
+DATA:
+  PATH: ./VTX_MTMC_2024
+  SCENE: F11_12
+  FRAME_RATE: 5
+
+TOPOLOGY:
+  SHOW: CENTROID
+  RADIUS: 40
+
+  TRAIL_MAX_LEN: 30
+  TRAIL_MAX_AGE: 10
+
+  # If there exists available topology map
+  TOPOLOGY_MAP: ./assets/t11.png
+  HOMOGRAPHY_PATH: ./config/dataset_VTX2024_homo_info_calc1.json
+  NEEDS_INVERSE: True
+  
+  # If there exists no map and we are only to use a black image
+  BASE_MAP_WIDTH: 1440
+  BASE_MAP_HEIGHT: 1440
+
+# CAMERA_ORDER: ['111101', '111105', '111108',
+#                '111111', '111109', '111110',
+#                '111103']
+
+# CAMERA_ORDER: ['110109', '110103',
+#                '110106', '110107']
+
+CAMERA_ORDER: 
+
+MODE: gt # 'gt' or 'pred'
+
+DISPLAY:
+  CELL_WIDTH: 400
+  CELL_HEIGHT: 225
+  SCALE_FACTOR: 1.5
+
+  # Set both to -1 to use the topology map's default resolution
+  TOPDOWN_WIDTH: 1200
+  TOPDOWN_HEIGHT: 1200
+
+SAVE_VIDEO:
+  CAMERA_FEED:
+    SAVE: False
+    OUTPUT_DIR: ./output/feed/
+  TOPOLOGY_MAP:
+    SAVE: False
+    OUTPUT_DIR: ./output/map/
