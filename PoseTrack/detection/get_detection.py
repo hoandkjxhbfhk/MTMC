@@ -179,6 +179,7 @@ def image_demo(predictor, vis_folder, current_time, args,scene):
         os.makedirs(out_path)
 
     cameras = sorted(os.listdir(input))
+    cameras = [c for c in cameras if c.startswith('camera_') and osp.isdir(osp.join(input, c))]
     scale = min(800/1080,1440/1920)
     
     def preproc_worker(img):

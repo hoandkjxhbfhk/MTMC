@@ -95,6 +95,11 @@ class reid_inferencer():
 def main():
     parser = ArgumentParser()
     parser.add_argument(
+        '--scene_name',
+        type=str,
+        default=None,
+        help='Specific scene name to process (e.g., scene_061)')
+    parser.add_argument(
         '--start', type=int,default=0)
     parser.add_argument(
         '--end', type=int,default=-1)
@@ -105,9 +110,12 @@ def main():
     vid_root = os.path.join(root_path,"dataset/test")
     save_root = os.path.join(root_path,"result/reid")
     
-    scenes = sorted(os.listdir(det_root))
-    scenes = [s for s in scenes if s[0]=="s"]
-    scenes = scenes[args.start:args.end]
+    if args.scene_name:
+        scenes = [args.scene_name]
+    else:
+        scenes = sorted(os.listdir(det_root))
+        scenes = [s for s in scenes if s[0]=="s"]
+        scenes = scenes[args.start:args.end]
 
     reid=torch.load('../ckpt_weight/aic24.pkl',map_location='cpu').cuda().eval()
     reid_model = reid_inferencer(reid)
@@ -119,7 +127,7 @@ def main():
         vid_dir = os.path.join(vid_root, scene)
         save_dir = os.path.join(save_root, scene)
         cams = os.listdir(vid_dir)
-        cams = sorted([c for c in cams if c[0]=="c"])
+        cams = sorted([c for c in cams if c.startswith('camera_') and os.path.isdir(os.path.join(vid_dir, c))])
 
         if not os.path.exists(save_dir):
             os.mkdir(save_dir)

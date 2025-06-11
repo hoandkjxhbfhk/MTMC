@@ -30,7 +30,8 @@ def main():
     #     print("exit",scene_name)
     #     exit()
     
-    cams = sorted(os.listdir(cal_dir))
+    all_items = sorted(os.listdir(cal_dir))
+    cams = [item for item in all_items if item.startswith('camera_') and osp.isdir(osp.join(cal_dir, item))]
     cals = []
     for cam in cams:
         cals.append(Camera(osp.join(cal_dir,cam,"calibration.json")))

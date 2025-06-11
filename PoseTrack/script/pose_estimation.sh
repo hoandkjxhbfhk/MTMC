@@ -12,23 +12,32 @@ cd mmpose
 
 set -x
 
-start=0
-end=29
+# --- Configuration ---
+# Define the specific scenes you want to process
+SCENES_TO_PROCESS=("scene_061" "scene_081")
+
+# Define hardware resources
 start_gpu=0
-gpu_nums_per_iter=4 # gpu_nums_per_iter >= 1
-cpu_nums_per_item=4 #cpu_nums_per_item >= 1
-scene_per_iter=30   #scene_per_iter={1,2,5,10,15,30}
+gpu_nums=4          # Total number of GPUs to use
+cpu_nums_per_gpu=4  # Number of CPU cores to assign per process
 
-for ((j=0; j < ($end-$start+1) / $scene_per_iter; j++)); do
-  # 使用for循环遍历场景
-  for ((i = $start + $j * $scene_per_iter; i < $start + $j * $scene_per_iter + $scene_per_iter; i++)); do
-      # 计算当前场景所在的GPU编号
-      gpu_index=$((($i - $start - $j * $scene_per_iter) * $gpu_nums_per_iter / $scene_per_iter + $start_gpu))
+# --- Execution ---
+gpu_idx=0
 
-      # 设置CUDA_VISIBLE_DEVICES环境变量以限制使用特定的GPU
-      export CUDA_VISIBLE_DEVICES=$[$gpu_index]
+for scene_name in "${SCENES_TO_PROCESS[@]}"; do
+    # Assign a GPU for the current process
+    current_gpu=$((start_gpu + gpu_idx))
+    export CUDA_VISIBLE_DEVICES=$current_gpu
 
-      taskset -c $[$cpu_nums_per_item*$[$i-$start]]-$[$cpu_nums_per_item*$[$i-$start]+$cpu_nums_per_item-1] python demo/save_pose_with_det_multiscene.py \
+    # Calculate CPU core range based on the assigned GPU to prevent conflicts
+    cpu_start=$((current_gpu * cpu_nums_per_gpu))
+    cpu_end=$((cpu_start + cpu_nums_per_gpu - 1))
+
+    echo "Processing $scene_name on GPU $current_gpu with CPUs $cpu_start-$cpu_end"
+
+    # Run pose estimation for the specific scene in the background
+    # Use the new --scene_name argument
+    taskset -c $cpu_start-$cpu_end python demo/save_pose_with_det_multiscene.py \
       demo/mmdetection_cfg/faster_rcnn_r50_fpn_coco.py \
       https://download.openxlab.org.cn/models/mmdetection/FasterR-CNN/weight/faster-rcnn_r50_fpn_1x_coco \
       configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192.py \
@@ -37,8 +46,16 @@ for ((j=0; j < ($end-$start+1) / $scene_per_iter; j++)); do
       --output-root vis_results/ \
       --draw-bbox \
       --show-kpt-idx \
-      --start $[$i] \
-      --end $[$i+1] &
-  done
-  wait
+      --scene_name "$scene_name" &
+
+    # Cycle to the next GPU
+    gpu_idx=$(((gpu_idx + 1) % gpu_nums))
+    
+    # If we have used all available GPUs, wait for them to finish before starting a new batch
+    if [ $gpu_idx -eq 0 ]; then
+        wait
+    fi
 done
+
+# Wait for any remaining background jobs to complete
+wait
