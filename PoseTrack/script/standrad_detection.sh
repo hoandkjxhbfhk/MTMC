@@ -10,27 +10,42 @@ trap cleanup EXIT
 
 set -x
 
-# 定义场景的起始和结束索引
-start=61
-end=90
-start_gpu=1
-gpu_nums_per_iter=5 # gpu_nums_per_iter >= 1
-cpu_nums_per_item=4 #cpu_nums_per_item >= 1
-scene_per_iter=30   #scene_per_iter={1,2,5,10,15,30}
+# --- Configuration ---
+# Define the specific scene numbers you want to process
+SCENES_TO_PROCESS=(61)
 
+# Define hardware resources
+start_gpu=0
+gpu_nums=4          # Total number of GPUs to use
+cpu_nums_per_gpu=20  # Number of CPU cores to assign per process
 
-for ((j=0; j < ($end-$start+1) / $scene_per_iter; j++)); do
-  # 使用for循环遍历场景
-  for ((i = $start + $j * $scene_per_iter; i < $start + $j * $scene_per_iter + $scene_per_iter; i++)); do
-      # 计算当前场景所在的GPU编号
-      gpu_index=$((($i - $start - $j * $scene_per_iter) * $gpu_nums_per_iter / $scene_per_iter + $start_gpu))
+# --- Execution ---
+gpu_idx=0
 
-      # 设置CUDA_VISIBLE_DEVICES环境变量以限制使用特定的GPU
-      export CUDA_VISIBLE_DEVICES=$[$gpu_index]
+for scene_num in "${SCENES_TO_PROCESS[@]}"; do
+    # Assign a GPU for the current process
+    current_gpu=$((start_gpu + gpu_idx))
+    export CUDA_VISIBLE_DEVICES=$current_gpu
 
-      taskset -c $[$cpu_nums_per_item*$[$i-$start]]-$[$cpu_nums_per_item*$[$i-$start]+$cpu_nums_per_item-1] python detection/get_detection.py --scene $i &
-  done
-  wait
+    # Calculate CPU core range based on the assigned GPU to prevent conflicts
+    cpu_start=$((gpu_idx * cpu_nums_per_gpu))
+    cpu_end=$((cpu_start + cpu_nums_per_gpu - 1))
+
+    echo "Processing scene $scene_num on GPU $current_gpu with CPUs $cpu_start-$cpu_end"
+
+    # Run detection for the specific scene in the background (standard PyTorch)
+    taskset -c $cpu_start-$cpu_end python detection/get_detection.py --scene "$scene_num" --ckpt ckpt_weight/bytetrack_x_mot17.pth &
+
+    # Cycle to the next GPU
+    gpu_idx=$(((gpu_idx + 1) % gpu_nums))
+    
+    # If we have used all available GPUs, wait for them to finish before starting a new batch
+    if [ $gpu_idx -eq 0 ]; then
+        wait
+    fi
 done
 
+# Wait for any remaining background jobs to complete
 wait
+
+echo "All detection jobs finished."

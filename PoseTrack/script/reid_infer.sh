@@ -14,12 +14,12 @@ set -x
 
 # --- Configuration ---
 # Define the specific scenes you want to process
-SCENES_TO_PROCESS=("scene_061" "scene_081")
+SCENES_TO_PROCESS=("scene_061")
 
 # Define hardware resources
 start_gpu=0
 gpu_nums=4          # Total number of GPUs to use
-cpu_nums_per_gpu=4  # Number of CPU cores to assign per process
+cpu_nums_per_gpu=20  # Number of CPU cores to assign per process
 
 # --- Execution ---
 gpu_idx=0
