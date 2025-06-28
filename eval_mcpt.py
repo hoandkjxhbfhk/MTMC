@@ -114,7 +114,7 @@ def run(args, conf_thres, iou_thres, sources, result_paths, perspective, cam_ids
 
 if __name__ == '__main__':
     args = {
-        'max_batch_size' : 32,  # maximum input batch size of reid model
+        'max_batch_size' : 64,  # maximum input batch size of reid model
         'track_buffer' : 150,  # the frames for keep lost tracks
         'with_reid' : True,  # whether to use reid model's out feature map at first association
         'sct_appearance_thresh' : 0.4,  # threshold of appearance feature cosine distance when do single-cam tracking
